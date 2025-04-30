@@ -1,0 +1,7 @@
+# robots.txt optimized by ingeniumbright
+User-agent: *
+Disallow: /assets/
+
+
+Sitemap: https://www.XXXXX.com/sitemap.xml
+
