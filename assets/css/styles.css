@@ -37,9 +37,11 @@ section {
 
 /*INICIO*/
 #inicio {
-  background-image: url("../img/inicio.jpg");
-  background-size: cover;
+  background-image: url("../img/inicio.webp");
+  background-size: 450px;
+  background-position: right;
   background-repeat: no-repeat;
+  background-color: #ffffff;
 }
 
 .section-header {
@@ -192,21 +194,41 @@ section {
 /* About Section */
 .about-section {
   background-color: var(--light-color);
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
 }
 
-.about-section p {
-  font-size: larger;
+.about-section strong {
+  font-size: 16px;
+}
+
+.about-section p,
+li {
+  font-size: 14px;
+  color: var(--primary-color) !important;
 }
 
 .about-section span {
   font-weight: 600;
 }
 
+.contenedor-imagen {
+  text-align: center;
+}
+
 .about-img {
-  border-radius: 10px;
+  border-radius: 6px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   height: auto;
+  display: inline;
+  margin-bottom: 20px;
+}
+
+.about-section img {
+  max-height: 370px;
 }
 
 .values-container {
@@ -616,6 +638,11 @@ section {
   .value-item {
     margin-bottom: 30px;
   }
+
+  #inicio {
+    background-image: none;
+    background-color: #ffffff;
+  }
 }
 
 @media (max-width: 767px) {
@@ -625,6 +652,10 @@ section {
 
   .section-header h2 {
     font-size: 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 10px;
   }
 
   .hero h1 {
@@ -672,5 +703,29 @@ section {
 
   .service-card h3 {
     font-size: 1.3rem;
+  }
+
+  .value-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+  }
+
+  .value-item h4 {
+    font-size: small;
+  }
+
+  .value-item {
+    justify-items: center;
+  }
+
+  .contenedor-iconos {
+    padding: 0 20px;
+    padding-top: 30px;
   }
 }
