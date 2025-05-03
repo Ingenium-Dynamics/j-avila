@@ -275,6 +275,7 @@ li {
   padding: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
+  margin-top: 30px;
   height: 100%;
   transition: all 0.3s ease;
 }
@@ -490,6 +491,10 @@ li {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.footer-contact li {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .footer-about {
   margin-bottom: 30px;
 }
@@ -684,6 +689,14 @@ li {
   .contact-form,
   .quote-form {
     padding: 25px;
+  }
+
+  .service-card {
+    margin: 0 !important;
+  }
+
+  .servicio {
+    margin-top: 20px;
   }
 }
 
