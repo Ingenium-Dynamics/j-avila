@@ -37,9 +37,14 @@ section {
 }
 
 /*INICIO*/
+
 #inicio {
+  background-color: #ffffff;
+}
+
+.background-inicio {
   background-image: url("../img/inicio.webp");
-  background-size: 450px;
+  background-size: contain;
   background-position: right;
   background-repeat: no-repeat;
   background-color: #ffffff;
@@ -305,9 +310,9 @@ li {
   color: var(--primary-color);
 }
 .service-card .service-icon:hover i {
-    color: var(--dark-gray);
+  color: var(--dark-gray);
 
-    /*background: var(--dark-gray);*/
+  /*background: var(--dark-gray);*/
 }
 .service-card h3 {
   font-size: 1.5rem;
@@ -404,7 +409,7 @@ li {
   margin-top: 20px;
 }
 
-.social-media a{
+.social-media a {
   text-decoration: none;
 }
 .social-icon {
@@ -655,7 +660,7 @@ li {
     margin-bottom: 30px;
   }
 
-  #inicio {
+  .background-inicio {
     background-image: none;
     background-color: #ffffff;
   }
@@ -709,6 +714,10 @@ li {
   .servicio {
     margin-top: 20px;
   }
+
+  .contact-form {
+    margin-top: 15px;
+  }
 }
 
 @media (max-width: 575px) {
@@ -720,13 +729,12 @@ li {
     width: 60px;
     height: 60px;
   }
-/*
+  /*
   .service-icon i {
     font-size: 32px;
     color: var(--primary-color);
     background: color-mix(in srgb, var(--secondary-color), transparent 95%);
   }*/
-
 
   .service-card h3 {
     font-size: 1.3rem;
@@ -755,6 +763,4 @@ li {
     padding: 0 20px;
     padding-top: 30px;
   }
-
-
 }
