@@ -121,64 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
     
-    // Form submission handlers
-    const quotationForm = document.getElementById('quotationForm');
-    if (quotationForm) {
-        quotationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic form validation
-            let isValid = true;
-            const requiredFields = quotationForm.querySelectorAll('[required]');
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('is-invalid');
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
-            
-            if (isValid) {
-                // Verificar límite de mensajes
-                if (!checkMessageLimit()) {
-                    showAlert('Has superado el límite de 3 mensajes por hora. Por favor, inténtalo más tarde.', 'error', quotationForm);
-                    return;
-                }
-                
-                // Configurar los datos del formulario
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    serviceType: document.getElementById('serviceType').value,
-                    serviceArea: document.getElementById('serviceArea').value,
-                    message: document.getElementById('message').value
-                };
-                
-                // Deshabilitar el botón y mostrar estado de carga
-                const submitBtn = quotationForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
-                
-                // Aquí iría el código para enviar al servidor (utilizando fetch o similar)
-                // Por ahora, simulamos una respuesta exitosa después de un breve delay
-                setTimeout(() => {
-                    showAlert('Cotización enviada correctamente. Nos contactaremos a la brevedad.', 'success', quotationForm);
-                    quotationForm.reset();
-                    
-                    // Restaurar el botón
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                }, 1000);
-            } else {
-                showAlert('Por favor complete todos los campos requeridos.', 'error', quotationForm);
-            }
-        });
-    }
-    
     // Add hCaptcha script
     const hCaptchaScript = document.createElement('script');
     hCaptchaScript.src = 'https://js.hcaptcha.com/1/api.js';
