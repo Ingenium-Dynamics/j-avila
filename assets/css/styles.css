@@ -764,3 +764,130 @@ li {
     padding-top: 30px;
   }
 }
+
+/* Instagram Widget Styles */
+#instagram-feed {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+#instagram-feed .instagram-widget {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* Perfil de Instagram */
+#instagram-feed .instagram-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+#instagram-feed .profile-image {
+    margin-right: 15px;
+}
+
+#instagram-feed .profile-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #eee;
+}
+
+#instagram-feed .profile-info {
+    flex-grow: 1;
+}
+
+#instagram-feed .profile-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: #262626;
+}
+
+#instagram-feed .profile-info p {
+    margin-bottom: 3px;
+    font-size: 14px;
+    color: #666;
+}
+
+#instagram-feed .follower-count,
+#instagram-feed .post-count {
+    font-weight: 600;
+    color: #262626;
+}
+
+/* Contenedor del iframe de Instagram */
+.instagram-iframe-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 80%; /* Reducido de 120% a 80% para hacerlo más compacto */
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.instagram-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* CTA de Instagram */
+#instagram-feed .instagram-cta {
+    padding: 10px 5px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+}
+
+#instagram-feed .instagram-cta p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #8e8e8e;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    #instagram-feed .instagram-widget {
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    #instagram-feed .instagram-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    #instagram-feed .profile-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    #instagram-feed .profile-info {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .instagram-iframe-container {
+        padding-bottom: 100%; /* Ajustado de 150% a 100% para móviles */
+    }
+}
+
+@media (max-width: 576px) {
+    .instagram-iframe-container {
+        padding-bottom: 120%; /* Más alto para pantallas muy pequeñas */
+    }
+}
