@@ -221,7 +221,10 @@ li {
 }
 
 .contenedor-imagen {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .about-img {
@@ -664,6 +667,18 @@ li {
     background-image: none;
     background-color: #ffffff;
   }
+
+  .contenedor-imagen {
+    margin-bottom: 30px;
+  }
+
+  #carouselJAvila {
+    max-width: 80%;
+  }
+
+  .carrusel-vertical {
+    max-width: 300px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -718,6 +733,14 @@ li {
   .contact-form {
     margin-top: 15px;
   }
+
+  #carouselJAvila {
+    max-width: 90%;
+  }
+
+  .carrusel-vertical {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 575px) {
@@ -762,6 +785,10 @@ li {
   .contenedor-iconos {
     padding: 0 20px;
     padding-top: 30px;
+  }
+
+  #carouselJAvila {
+    max-width: 100%;
   }
 }
 
@@ -889,5 +916,79 @@ li {
 @media (max-width: 576px) {
     .instagram-iframe-container {
         padding-bottom: 120%; /* Más alto para pantallas muy pequeñas */
+    }
+}
+
+/* Estilos para el carrusel de quiénes somos - Reconstruido desde cero */
+#carouselJAvila {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    background: #f5f5f5;
+}
+
+.carousel-img-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Proporción vertical real 516x688 */
+    overflow: hidden;
+    background: #ffffff; /* Fondo neutro para los márgenes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-img-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: #ffffff;
+}
+
+
+/* Responsive styles for carrusel */
+@media (min-width: 768px) {
+    #carouselJAvila {
+        max-width: 90%; /* Limita el ancho en pantallas grandes */
+    }
+}
+
+@media (max-width: 767px) {
+    #carouselJAvila {
+        max-width: 100%;
+    }
+    
+    .carousel-img-container {
+        /* Mantenemos la misma proporción en móviles 133.33 */
+        padding-bottom: 133.33%;
+    }
+}
+
+.carrusel-vertical {
+    max-width: 500px; /**350*/
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 991px) {
+    .carrusel-vertical {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .carrusel-vertical {
+        max-width: 100%;
     }
 }
