@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Admin - ChatBot</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4 bg-light">
+  <div class="container">
+    <h1 class="mb-4">Panel de Administración</h1>
+
+    <!-- Pendientes -->
+    <h2>Pendientes</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Pregunta</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="pendientes-body"></tbody>
+    </table>
+
+    <!-- FAQ -->
+    <h2 class="mt-5">FAQ</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Preguntas (variantes)</th>
+          <th>Respuesta</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="faq-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Modal Responder -->
+  <div class="modal fade" id="responderModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Responder pendiente</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="pendiente-id">
+          <div class="mb-3">
+            <label class="form-label">Pregunta detectada</label>
+            <input type="text" id="pendiente-pregunta" class="form-control" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Variantes (separadas por coma)</label>
+            <input type="text" id="pendiente-variantes" class="form-control" placeholder="Ej: donde trabajan,donde estan,en que ciudad trabajan">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Respuesta</label>
+            <textarea id="pendiente-respuesta" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" onclick="guardarRespuesta()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar FAQ -->
+  <div class="modal fade" id="editarModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar FAQ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="faq-id">
+          <div class="mb-3">
+            <label class="form-label">Variantes (coma)</label>
+            <input type="text" id="faq-variantes" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Respuesta</label>
+            <textarea id="faq-respuesta" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success" onclick="actualizarFAQ()">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script  src="assets/js/firebase-config.js"></script>
+  <script>
+    // 🔹 Config Firebase
+    /*const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();*/
+
+    const pendientesBody = document.getElementById("pendientes-body");
+    const faqBody = document.getElementById("faq-body");
+
+    // 🔹 Cargar pendientes
+    db.collection("pendientes").orderBy("fecha", "desc").onSnapshot(snapshot => {
+      pendientesBody.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const tr = document.createElement("tr");
+
+        let fechaStr = "";
+if (data.fecha) {
+  if (typeof data.fecha.toDate === "function") {
+    fechaStr = data.fecha.toDate().toLocaleString();
+  } else {
+    fechaStr = new Date(data.fecha).toLocaleString(); // si viene como string
+  }
+}
+
+
+//<button class="btn btn-sm btn-primary" onclick="abrirResponder('${doc.id}','${data.pregunta}')">Responder</button>
+        tr.innerHTML = `
+          <td>${data.pregunta}</td>
+          <td>${fechaStr}</td>
+          <td>
+            
+            <button class="btn btn-sm btn-success"
+            onclick="abrirResponder('${doc.id}', '${encodeURIComponent(data.pregunta)}')">
+            Responder
+            </button>
+            <button class="btn btn-sm btn-danger"
+            onclick="eliminarPendiente('${doc.id}')">
+            Eliminar
+            </button>
+          </td>
+        `;
+        pendientesBody.appendChild(tr);
+      });
+    });
+
+    // 🔹 Cargar FAQ
+    db.collection("faq").onSnapshot(snapshot => {
+      faqBody.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        // Al renderizar FAQ
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${data.pregunta.join(", ")}</td>
+        <td>${data.respuesta}</td>
+        <td>
+            <button class="btn btn-sm btn-warning"
+            onclick="abrirEditar(
+                '${doc.id}',
+                '${encodeURIComponent(data.pregunta.join(","))}',
+                '${encodeURIComponent(data.respuesta)}'
+            )">Editar</button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarFAQ('${doc.id}')">Eliminar</button>
+        </td>
+        `;
+        faqBody.appendChild(tr);
+
+      });
+    });
+
+    // 🔹 Abrir modal responder
+    function abrirResponder(id, pregunta) {
+      document.getElementById("pendiente-id").value = id;
+      document.getElementById("pendiente-pregunta").value = pregunta;
+      document.getElementById("pendiente-variantes").value = pregunta;
+      document.getElementById("pendiente-respuesta").value = "";
+      new bootstrap.Modal(document.getElementById("responderModal")).show();
+    }
+
+    // 🔹 Guardar respuesta en FAQ y borrar de pendientes
+    function guardarRespuesta() {
+      const id = document.getElementById("pendiente-id").value;
+      const variantes = document.getElementById("pendiente-variantes").value.split(",").map(v => v.trim());
+      const respuesta = document.getElementById("pendiente-respuesta").value;
+
+      if (!respuesta) return alert("Debes escribir una respuesta");
+
+      db.collection("faq").add({ pregunta: variantes, respuesta: respuesta }).then(() => {
+        db.collection("pendientes").doc(id).delete();
+        bootstrap.Modal.getInstance(document.getElementById("responderModal")).hide();
+      });
+    }
+
+    // 🔹 Abrir modal editar FAQ
+    /*function abrirEditar(id, variantes, respuesta) {
+      document.getElementById("faq-id").value = id;
+      document.getElementById("faq-variantes").value = variantes;
+      document.getElementById("faq-respuesta").value = respuesta;
+      new bootstrap.Modal(document.getElementById("editarModal")).show();
+    }*/
+    function abrirEditar(id, variantes, respuesta) {
+  document.getElementById("faq-id").value = id;
+  document.getElementById("faq-variantes").value = decodeURIComponent(variantes);
+  document.getElementById("faq-respuesta").value = decodeURIComponent(respuesta);
+  new bootstrap.Modal(document.getElementById("editarModal")).show();
+}
+    // 🔹 Actualizar FAQ
+    function actualizarFAQ() {
+      const id = document.getElementById("faq-id").value;
+      const variantes = document.getElementById("faq-variantes").value.split(",").map(v => v.trim());
+      const respuesta = document.getElementById("faq-respuesta").value;
+
+      db.collection("faq").doc(id).update({ pregunta: variantes, respuesta: respuesta }).then(() => {
+        bootstrap.Modal.getInstance(document.getElementById("editarModal")).hide();
+      });
+    }
+
+    // 🔹 Eliminar FAQ
+    function eliminarFAQ(id) {
+      if (confirm("¿Seguro que quieres eliminar este FAQ?")) {
+        db.collection("faq").doc(id).delete();
+      }
+    }
+
+    function eliminarPendiente(id) {
+  if (confirm("¿Seguro que deseas eliminar esta pregunta pendiente?")) {
+    db.collection("pendientes").doc(id).delete()
+      .then(() => {
+        alert("Pendiente eliminado correctamente.");
+      })
+      .catch(err => {
+        console.error("Error eliminando pendiente:", err);
+      });
+  }
+}
+  </script>
+</body>
+</html>
