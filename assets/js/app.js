@@ -47,7 +47,7 @@ function sendMessage() {
     
         // Fuse devuelve un score (0 perfecto, 1 muy malo).
         if (mejor.score < 0.4) {  
-          appendMessage("Bot", mejor.item.respuesta);
+          appendMessage("Bot", mejor.item.respuesta,true);
           return;
         }
       }
