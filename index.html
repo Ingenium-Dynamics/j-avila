@@ -137,18 +137,7 @@
 </head>
 
 <body>
-<!-- Chat Bubble -->
-<div id="chat-bubble" onclick="toggleChat()">💬</div>
 
-<!-- Chat Window -->
-<div id="chat-window" style="display:none;">
-  <div id="chat-header">Asistente Virtual</div>
-  <div id="chat-body"></div>
-  <div id="chat-footer">
-    <input id="user-input" type="text" placeholder="Escribe tu mensaje..." />
-    <button onclick="sendMessage()">Enviar</button>
-  </div>
-</div>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -681,6 +670,20 @@
             </div>
         </div>
     </footer>
+
+
+<!-- Chat Bubble -->
+<div id="chat-bubble" onclick="toggleChat()">💬</div>
+
+<!-- Chat Window -->
+<div id="chat-window" style="display:none;">
+  <div id="chat-header">Asistente Virtual</div>
+  <div id="chat-body"></div>
+  <div id="chat-footer">
+    <input id="user-input" type="text" placeholder="Escribe tu mensaje..." />
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
 
     <a href="#inicio" class="back-to-top">
         <i class="fas fa-arrow-up"></i>
