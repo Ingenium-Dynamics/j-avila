@@ -671,20 +671,47 @@
         </div>
     </footer>
 
+   <!-- Botón flotante del chat -->
+   <button id="chat-toggle" onclick="toggleChat()"></button>
 
-<!-- Chat Bubble -->
-<div id="chat-bubble" onclick="toggleChat()">💬</div>
-
-<!-- Chat Window -->
-<div id="chat-window" style="display:none;">
-  <div id="chat-header">Asistente Virtual</div>
-  <div id="chat-body"></div>
-  <div id="chat-footer">
-    <input id="user-input" type="text" placeholder="Escribe tu mensaje..." />
-    <button onclick="sendMessage()">Enviar</button>
-  </div>
-</div>
-
+   <!-- Ventana del chat -->
+   <div id="chat-window" style="display: none;">
+       <!-- Efecto de fondo sutil -->
+       <div class="chat-bg-effect"></div>
+       
+       <!-- Header con avatar -->
+       <div id="chat-header">
+           <div class="avatar-container">
+               <img src="assets/img/inicio.webp" alt="Avatar IngeniumBot" class="avatar" 
+                    onerror="this.style.background='var(--gradient)'">
+           </div>
+           <div class="chat-info">
+               <h3>IngeniumBot</h3>
+               <div class="chat-status">
+                   <div class="status-dot"></div>
+                   <span>En línea • Listo para ayudar</span>
+               </div>
+           </div>
+           <button class="close-btn" onclick="toggleChat()">
+               ×
+           </button>
+       </div>
+       
+       <!-- Cuerpo del chat -->
+       <div id="chat-body">
+           <div class="msg-bot">
+               <strong>¡Hola! 👋</strong><br>
+               Soy <strong>IngeniumBot</strong>, tu asistente virtual especializado. ¿En qué puedo ayudarte hoy?
+           </div>
+       </div>
+       
+       <!-- Footer del chat -->
+       <div id="chat-footer">
+           <input type="text" id="user-input" placeholder="Escribe tu mensaje..." 
+                  onkeypress="if(event.key=='Enter') sendMessage()">
+           <button onclick="sendMessage()"></button>
+       </div>
+   </div>
     <a href="#inicio" class="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </a>
